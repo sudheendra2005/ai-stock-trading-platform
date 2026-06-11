@@ -15,10 +15,11 @@ const RegisterPage = () => {
   const validate = () => {
     const errs = {};
     if (!form.username.trim()) errs.username = 'Username required';
+    else if (form.username.trim().length < 3) errs.username = 'Username must be at least 3 characters';
     if (!form.email.trim()) errs.email = 'Email required';
     else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Enter a valid email address';
     if (!form.password) errs.password = 'Password required';
-    else if (form.password.length < 6) errs.password = 'Minimum 6 characters';
+    else if (form.password.length < 8) errs.password = 'Password must be at least 8 characters';
     if (form.password !== form.confirmPassword) errs.confirmPassword = 'Passwords do not match';
     return errs;
   };
@@ -97,7 +98,7 @@ const RegisterPage = () => {
             </div>
             <div className="form-group">
               <label className="form-label">Password</label>
-              <input className="form-input" name="password" type="password" value={form.password} onChange={set} placeholder="Min. 6 characters" />
+              <input className="form-input" name="password" type="password" value={form.password} onChange={set} placeholder="Min. 8 characters" />
               {errors.password && <div className="form-error">{errors.password}</div>}
             </div>
             <div className="form-group">
