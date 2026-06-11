@@ -1,0 +1,10 @@
+.venv
+.vercel
+.pytest_cache
+backend/venv
+backend/.pytest_cache
+frontend/node_modules
+frontend/dist
+**/__pycache__
+*.pyc
+*.db

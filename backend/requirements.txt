@@ -1,0 +1,21 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt<5
+yfinance
+pandas
+scikit-learn
+numpy
+matplotlib
+python-dotenv
+pydantic-settings
+# Optional local experiments only: torch is needed for rl/dqn_agent.py and
+# prediction/lstm_model.py, but the production Q-learning + RandomForest path
+# avoids it so Vercel deployments stay small enough for serverless functions.
+requests
+email-validator
+pytest
+httpx2

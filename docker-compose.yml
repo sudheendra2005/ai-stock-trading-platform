@@ -1,0 +1,49 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    container_name: nexusai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=production_secret_key_change_me_12345
+      - DATABASE_URL=sqlite:///./sql_app.db
+    volumes:
+      - backend-db:/app
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: nexusai-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+  trainer:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    container_name: nexusai-trainer
+    environment:
+      - TRAIN_INTERVAL_SECONDS=21600
+      - RL_EPISODES=60
+      - RL_AGENT_TYPE=q
+      - RL_SYMBOLS=RELIANCE.NS,TCS.NS,HDFCBANK.NS,INFY.NS,ICICIBANK.NS,WIPRO.NS,AAPL,MSFT,GOOGL
+      - FORCE_RETRAIN=false
+    volumes:
+      - rl_agents:/app/rl/saved_agents
+    depends_on:
+      - backend
+    restart: always
+    command: ["python", "-u", "rl/trainer.py"]
+
+volumes:
+  backend-db:
+  rl_agents:
