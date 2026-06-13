@@ -9,7 +9,9 @@ import secrets
 import string
 
 # Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# New hashes use pbkdf2_sha256 to avoid bcrypt/passlib runtime failures in
+# serverless environments. Bcrypt stays enabled so existing users can log in.
+pwd_context = CryptContext(schemes=["pbkdf2_sha256", "bcrypt"], deprecated="auto")
 
 def get_user_by_email(db: Session, email: str):
     return db.query(User).filter(User.email == email).first()
