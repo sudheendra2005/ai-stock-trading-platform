@@ -19,4 +19,4 @@ pydantic-settings
 requests
 email-validator
 pytest
-httpx2
+httpx
